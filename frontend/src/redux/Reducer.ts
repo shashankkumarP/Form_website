@@ -2,7 +2,7 @@
 /* eslint-disable no-empty */
 /* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { FormFailed, FormUpload, LoginFailure, LoginRequest, RegisterFailure, RegisterRequest } from './action.type';
+import { FormFailed, FormUpload, LoginFailure, LoginRequest,DisableError, RegisterFailure, RegisterRequest } from './action.type';
 import Cookies from "js-cookie";
 interface Initialstate{
   Login: boolean;
@@ -58,6 +58,11 @@ const initialState:Initialstate= {
     case FormFailed:{
       return {
         ...state,Data:[],Error:true
+      }
+    }
+    case DisableError:{
+      return{
+        ...state,Error:false
       }
     }
     default:

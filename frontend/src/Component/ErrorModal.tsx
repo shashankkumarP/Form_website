@@ -1,6 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { DisableError } from '../redux/action.type';
 
 const ErrorModal = () => {
+  const dispatch = useDispatch();
+  const state:any = useSelector<any>((state)=>state.reducer);
+
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto">
       <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
@@ -28,7 +35,9 @@ const ErrorModal = () => {
           </div>
           <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
             <span className="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
-              <button  className="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-red-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red active:bg-red-800 transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+              <button  onClick={()=>{
+                dispatch({type:DisableError})
+              }} className="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-red-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red active:bg-red-800 transition ease-in-out duration-150 sm:text-sm sm:leading-5">
                 Close
               </button>
             </span>
