@@ -1,14 +1,21 @@
+// models/Form.js
 const mongoose = require('mongoose');
 
-const FormSchema = new mongoose.Schema({
-    Name:{type:String,required:true},
-    Email:{type:String,unique:true,trim: true},
-    Age:{type:Number, required:true},
-    DateField: {
-        type: Date,
-        default: Date.now()
-      },
+const fileSchema = new mongoose.Schema({
+  filename: String,
+  originalname: String,
+  mimetype: String,
+  size: Number,
+});
 
-})
- const FormModel = mongoose.model('form',FormSchema);
-module.exports=FormModel
+const formSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  phone:String,
+  dateOfSubmission:{type:String,default:Date.now()},
+  files: [fileSchema],
+});
+
+const FormModel = mongoose.model('form', formSchema);
+
+module.exports = FormModel;

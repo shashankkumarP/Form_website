@@ -1,74 +1,71 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-empty */
+/* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { FormFailed, FormUpload, LoginFailure, LoginRequest, RegisterFailure, RegisterRequest } from './action.type';
+import Cookies from "js-cookie";
+interface Initialstate{
+  Login: boolean;
+  Loading:boolean;
+  message:[];
+  Data:[],
+  Error:boolean;
+}
+const initialState:Initialstate= {
+  Login: false,
+  Loading:false,
+  message:[],
+  Data:[],
+  Error:false
+}
 
-import {  createSlice } from '@reduxjs/toolkit';
-import {User_Register,User_Login,User_FilesUpload} from "./action"
+ const MYReducer = (state=initialState,{type,payload}: { type: string,payload:any | never})=>{
 
-
-const ReducerSlice = createSlice({
-  name: 'myReducer',
-  initialState: {
-    Login: false,
-    Loading:false,
-    message:[],
-    Data:[],
-    Error:false
-  },
-  reducers: {
-    setLoginTrue:(state,action)=>{
-      state.Login=true;
+  switch(type)
+  {
+    case LoginRequest:{
+      let token = payload
+      console.log('here')
+      Cookies.set('jwt', token, { expires: 7 });
       
-    },
-    setLoginFalse:(state,action)=>{
-      state.Login=false;
-      state.Error=true;
+      console.log(state);
+      return {
+        ...state,Login:true
+      }
     }
-  },
-  // extraReducers:(builder)=>{
-  //   builder
-  //       .addCase(User_Register.pending,(state,action)=>{
-  //         state.Loading=true;
+    case LoginFailure:{
+      console.log('fail')
+      return {
+        ...state,Login:false,
+        Error:true
+      }
+    }
+    case RegisterRequest:{
+      return {
+        ...state,Error:false
+      }
+    }
+    case RegisterFailure:{
+      return {
+        ...state,Error:true
+      }
+    }
+    case FormUpload:{
+      return {
+        ...state,Data:[...payload]
+      }
+    }
+    case FormFailed:{
+      return {
+        ...state,Data:[],Error:true
+      }
+    }
+    default:
+      return state;
+    
+  }
 
 
-  //       })
-  //       .addCase(User_Register.fulfilled,(state,action)=>{
-  //         console.log(action);
-  //         state.Loading=false;
-  //         state.message=action.payload;
 
-  //       })
-  //       .addCase(User_Register.rejected,(state,action)=>{
-  //         state.Loading=false;
-  //         state.Error=true;
-          
-
-  //       })
-  //       .addCase(User_Login.pending,(state,action)=>{
-  //         state.Loading=true;
-          
-
-  //       })
-  //       .addCase(User_Login.fulfilled,(state,action)=>{
-  //         console.log(action);
-  //         state.Loading=false;
-  //         state.Login=true;
-          
-  //       })
-  //       .addCase(User_Login.rejected,(state)=>{
-  //         state.Loading=false;
-  //         state.Login=false;
-          
-  //       })
-  //       .addCase(User_FilesUpload.pending,(state,action)=>{
-  //         state.Loading=false;
-  //         state.Data=action.payload || [];
-  //       })
-  //       .addCase(User_FilesUpload.fulfilled,(state,action)=>{
-
-  //       })
-  //       .addCase(User_FilesUpload.rejected,(state,action)=>{})
-  // }
-});
-export const { setLoginTrue, setLoginFalse } = ReducerSlice.actions;
-export default ReducerSlice.reducer
-
-
+ }
+ export default MYReducer

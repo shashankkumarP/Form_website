@@ -1,6 +1,6 @@
 require('dotenv').config();
 const FormModel = require("../model/FormSchema")
-
+const multer = require('multer')
 
 const FormController = {
     getData: async(req,res)=>{
@@ -10,23 +10,36 @@ const FormController = {
                 return res.status(200).send({"message":"Got the data","data":data})
             }
             return res.status(401).send({"message":"No Data Available"})
-            
+
         }catch(e){
             return res.status(500).send({'message':"Something Went Wrong"})
         }
 
     },
     postData: async(req,res)=>{
-        let {Name,Age,Email} = req.body;
-
-        try{
-            let form = new FormModel.create({"Name":Name,"Email":Email,"Age":Age});
-            await form.save();
-            return res.status(201).send({"message":"Data saved sucessfully"})
-        }catch(e){
-            return res.status(500).send({'message':"Something Went Wrong"})
-
-        }
+        try {
+            const name = req.body.name;
+            const email = req.body.email;
+            const files = req.files;
+        
+            // Save the data to the MongoDB schema
+            const savedForm = await FormModel.create({
+              name,
+              email,
+              files: files.map((file) => ({
+                filename: file.filename,
+                originalname: file.originalname,
+                mimetype: file.mimetype,
+                size: file.size,
+              })),
+            });
+        
+            res.status(200).json(savedForm);
+          } catch (error) {
+            console.error('Form upload error:', error);
+            res.status(500).json({ error: 'Form upload failed' });
+          }
+        
         
 
     }

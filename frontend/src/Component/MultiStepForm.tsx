@@ -2,10 +2,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // MultiStepForm.tsx
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { FormUploadTrial } from "../redux/action";
 
 const MultiStepForm = ({ setShowform }: { setShowform: any }) => {
   const [step, setStep] = useState(1);
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState<any | never>({
     name: "",
     email: "",
@@ -40,6 +44,10 @@ const MultiStepForm = ({ setShowform }: { setShowform: any }) => {
 
   const handleSubmit = () => {
     console.log("Form data:", formData);
+    
+    
+    dispatch(FormUploadTrial(formData) as any )
+    setShowform(false);
   };
   const handlemultiselect = (e: any) => {
     if (formData.selectedOptions.includes(e.target.value)) {
@@ -139,16 +147,16 @@ const MultiStepForm = ({ setShowform }: { setShowform: any }) => {
       )}
       {step === 3 && (
         <div>
-          <label className="block mb-2">Select Options:</label>
+          <label className="block mb-2">Select Subjects:</label>
           <select
             multiple
             value={formData.selectedOptions}
             onChange={(e) => handlemultiselect(e)}
             className="w-full p-2 rounded border border-gray-300"
           >
-            <option value="Option 1">Option 1</option>
-            <option value="Option 2">Option 2</option>
-            <option value="Option 3">Option 3</option>
+            <option value="Math">Math</option>
+            <option value="Physics">Physics</option>
+            <option value="Science">Science</option>
           </select>
         </div>
       )}

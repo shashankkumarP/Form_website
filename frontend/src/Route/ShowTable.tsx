@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from "react";
@@ -25,7 +26,11 @@ const ShowTable = () => {
   }
 
   useEffect(() => {
-
+    fetch("https://jsonplaceholder.typicode.com/posts").then((res)=>res.json())
+    .then((res)=>{
+      const data = res.data;
+      setTabledata(data)
+    })
 
   }, []);
   return (
@@ -75,12 +80,16 @@ const ShowTable = () => {
     </thead>
     <tbody>
       {/* Insert table rows here */}
-      <tr>
-        <td className="text-left">hello</td>
-        <td className="text-left">hi</td>
-        <td className="text-left">hel</td>
-        <td className="text-left">dfdk</td>
-      </tr>
+     {tabledata.map((el:any,i:number)=>{
+      return(<tr key={i} >
+         
+        <td className="text-left">{el.Name}</td>
+        <td className="text-left">{el.Email}</td>
+        <td className="text-left">{el.Age}</td>
+        <td className="text-left">{el.Date}</td>
+     
+      </tr>)
+     })}
     </tbody>
   </table>
 </div>

@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {User_Login} from "../redux/action"
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm: React.FC = () => {
+  const navigate = useNavigate()
   const dispatch = useDispatch();
+  const state:any = useSelector<any>((state)=>state.reducer)
   const [form,setForm] = useState({
     email:"",
     password:""
@@ -15,10 +18,18 @@ const LoginForm: React.FC = () => {
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
    console.log(form)
-   dispatch(User_Login(form) as any)
+   dispatch(User_Login(form) as any).then((res:any)=>{
+    
+    
+      navigate('/')
+    
+   }).catch((e:any)=>{
+    console.log(e);
+   })
 
    
    
+
   };
 
   return (

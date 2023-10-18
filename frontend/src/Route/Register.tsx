@@ -1,23 +1,40 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {User_Register} from "../redux/action"
+import { useNavigate } from 'react-router-dom';
 
 const Register: React.FC = () => {
+  const state:any = useSelector<any>((state)=>state.reducer)
   const dispatch  = useDispatch();
+  const navigate = useNavigate();
     const [form,setForm] = useState({
-        name:"",
-        email:"",
-        password:""
+        Name:"",
+        Email:"",
+        Password:""
 
     });
 
   const handleRegistration = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    dispatch(User_Register(form) as any)
-    console.log(form)
-   
+    console.log(form);
+     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    
+
+   if(!emailRegex.test(form.Email)){
+    alert("Invalid Email");
+    return;
+   }else{
+    dispatch(User_Register(form) as any).then((res:any)=>{
+      if(state.Error) alert('registration failed')
+      else {
+
+        alert('resgistration successfull');
+        navigate('/login')
+      }
+    })
+  }
   };
 
   return (
@@ -37,8 +54,8 @@ const Register: React.FC = () => {
                 name="name"
                 type="text"
                 required
-                value={form.name}
-                onChange={(e) => setForm({...form,name:e.target.value})}
+                value={form.Name}
+                onChange={(e) => setForm({...form,Name:e.target.value})}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Name"
               />
@@ -52,8 +69,8 @@ const Register: React.FC = () => {
                 name="email"
                 type="email"
                 required
-                value={form.email}
-                onChange={(e) => setForm({...form,email:e.target.value})}
+                value={form.Email}
+                onChange={(e) => setForm({...form,Email:e.target.value})}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Email address"
               />
@@ -67,8 +84,8 @@ const Register: React.FC = () => {
                 name="password"
                 type="password"
                 required
-                value={form.password}
-                onChange={(e) => setForm({...form,password:e.target.value})}
+                value={form.Password}
+                onChange={(e) => setForm({...form,Password:e.target.value})}
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Password"
               />
