@@ -17,7 +17,7 @@ export const User_Register = (credential: any) => async (dispatch: any) => {
   console.log(credential);
   try {
     const registertrial = await axios.post(
-      "http://localhost:8080/user/register",
+      "https://sparkling-bracelet-hen.cyclic.app/user/register",
       credential
     );
     if (registertrial.data.message) {
@@ -32,7 +32,7 @@ export const User_Login = (credential: any) => async (dispatch: any) => {
   console.log(credential);
   try {
     const logintrial = await axios.post(
-      "http://localhost:8080/user/login",
+      "https://sparkling-bracelet-hen.cyclic.app/user/login",
       credential
     );
     const data = logintrial.data;
@@ -64,7 +64,7 @@ export const FormUploadTrial = (filesData: any) => async (dispatch: any) => {
       "Content-Type": "multipart/form-data",
       Authorization: `Bearer ${jwtToken}`,
     };
-    const files = await axios.post("http://localhost:8080/form", formData, {
+    const files = await axios.post("https://sparkling-bracelet-hen.cyclic.app/form", formData, {
       headers: headers,
     });
     console.log(files);

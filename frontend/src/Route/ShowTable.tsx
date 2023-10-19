@@ -34,7 +34,7 @@ const ShowTable = () => {
   }
 
   useEffect(() => {
-    fetch("http://localhost:8080/form").then((res)=>res.json())
+    fetch("https://sparkling-bracelet-hen.cyclic.app/form").then((res)=>res.json())
     .then((res)=>{
       const data = res.data;
       setTabledata(data)
