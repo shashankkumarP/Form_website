@@ -1,6 +1,7 @@
+/* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { createAsyncThunk } from "@reduxjs/toolkit";
+
 import {
   FormUpload,
   FormFailed,
@@ -44,36 +45,22 @@ export const User_Login = (credential: any) => async (dispatch: any) => {
     dispatch({ type: LoginFailure });
   }
 };
-
-// export const User_FilesUpload = createAsyncThunk(
-//   FormUpload,
-
-//   async (filesData) => {
-//     const jwtToken = Cookies.get("jwt");
-//     const headers = {
-//     "Content-Type": 'multipart/form-data',
-//       Authorization: `Bearer ${jwtToken}`,
-//     };
-//     const files = await axios.post("http:localhost:8080/form", filesData, {
-//       headers: headers,
-//     });
-//     console.log("actionjs file", files);
-//     return files.data;
-//   }
-// );
 export const FormUploadTrial = (filesData: any) => async (dispatch: any) => {
   const formData = new FormData();
   formData.append("name", filesData.name); // Assuming 'name' is the name input field value
   formData.append("email", filesData.email); // Assuming 'email' is the email input field value
-  formData.append("mobile", filesData.phone);
+  formData.append("phone", filesData.phone);
+  console.log(filesData, formData);
   const filesdata = filesData.files;
   filesdata.forEach((file: any, index: number) => {
-    formData.append(`files[${index}]`, file);
+    formData.append(`files${index}`, file);
   });
+  
+  console.log(formData);
 
   try {
     const jwtToken = Cookies.get("jwt");
-    const headers = {
+    const headers = { 
       "Content-Type": "multipart/form-data",
       Authorization: `Bearer ${jwtToken}`,
     };

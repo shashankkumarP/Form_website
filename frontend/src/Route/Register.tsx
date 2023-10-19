@@ -26,7 +26,7 @@ const Register: React.FC = () => {
     alert("Invalid Email");
     return;
    }else{
-    dispatch(User_Register(form) as any).then((res:any)=>{
+    dispatch(User_Register(form) as any).then(()=>{
       if(state.Error) alert('registration failed')
       else {
 

@@ -18,9 +18,9 @@ const LoginForm: React.FC = () => {
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
    console.log(form)
-   dispatch(User_Login(form) as any).then((res:any)=>{
+   dispatch(User_Login(form) as any).then(()=>{
     
-    
+    console.log(state)
       navigate('/')
     
    }).catch((e:any)=>{
